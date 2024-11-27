@@ -1,5 +1,6 @@
 package spa_salon_frontdesk;
 
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +8,9 @@ import java.sql.ResultSet;
 import javax.swing.table.DefaultTableModel;
 import java.util.Stack;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class PaymentSpaFrame extends javax.swing.JFrame {
 
@@ -22,60 +26,28 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        btnPay = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableService = new javax.swing.JTable();
+        btnClose = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        tfChange = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         tfTotal = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         tfCustomerName = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
+        btnPay = new javax.swing.JButton();
         tfCash = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        tfChange = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableService = new javax.swing.JTable();
-        btnAdd = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        cbPrefGender = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("X");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-
-        btnPay.setBackground(new java.awt.Color(204, 204, 204));
-        btnPay.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
-        btnPay.setText("Pay");
-        btnPay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPayActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Total ($):");
-
-        tfTotal.setText("0.00");
-
-        jLabel8.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Customer Name:");
-
-        jLabel9.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Cash ($):");
-
-        jLabel10.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Change ($):");
+        jPanel1.setBackground(new java.awt.Color(240, 240, 240));
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.setPreferredSize(new java.awt.Dimension(900, 505));
 
         tableService.setFont(new java.awt.Font("Montserrat", 0, 12)); // NOI18N
         tableService.setModel(new javax.swing.table.DefaultTableModel(
@@ -83,84 +55,140 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Services ID", "Service Name", "Price"
+                "Services ID", "Service Name", "Description", "Price"
             }
-        ));
-        jScrollPane1.setViewportView(tableService);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
-        btnAdd.setBackground(new java.awt.Color(204, 204, 204));
-        btnAdd.setFont(new java.awt.Font("Montserrat", 1, 18)); // NOI18N
-        btnAdd.setText("Add");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        tableService.setRowHeight(35);
+        tableService.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tableService);
+        if (tableService.getColumnModel().getColumnCount() > 0) {
+            tableService.getColumnModel().getColumn(0).setResizable(false);
+            tableService.getColumnModel().getColumn(1).setResizable(false);
+            tableService.getColumnModel().getColumn(2).setResizable(false);
+            tableService.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+
+        jLabel7.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel7.setText("Total:");
+
+        tfTotal.setText("0.00");
+
+        jLabel8.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel8.setText("Customer Name:");
+
+        jLabel9.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel9.setText("Cash:");
+
+        btnPay.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        btnPay.setText("Pay");
+        btnPay.setPreferredSize(new java.awt.Dimension(70, 30));
+        btnPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPayActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel10.setText("Change:");
+
+        jLabel11.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
+        jLabel11.setText("Prefered Gender:");
+
+        cbPrefGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
+        cbPrefGender.setSelectedIndex(-1);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfChange)
+                    .addComponent(tfCustomerName)
+                    .addComponent(tfCash, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                    .addComponent(tfTotal)
+                    .addComponent(cbPrefGender, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfCash, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfChange, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbPrefGender, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnClose)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(833, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(14, 14, 14))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfCash, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfChange, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(57, 57, 57)
-                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(139, 139, 139)))))
-                .addGap(37, 37, 37))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(btnAdd)
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfCash, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfChange, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15)
+                .addComponent(btnClose)
                 .addGap(18, 18, 18)
-                .addComponent(btnPay)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -178,38 +206,23 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        AllSpaServicesFrame assf = new AllSpaServicesFrame();
+        assf.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel3MouseClicked
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        double totalPrice = 0.0; // Initialize the total price
-
-        // Get the table model
-        DefaultTableModel model = (DefaultTableModel) tableService.getModel();
-
-        // Loop through the table rows
-        for (int i = 0; i < model.getRowCount(); i++) {
-            boolean isSelected = (Boolean) model.getValueAt(i, 0); // Check if the checkbox is selected
-            if (isSelected) {
-                double price = (Double) model.getValueAt(i, 3); // Get the price column value
-                totalPrice += price; // Add to the total price
-            }
-        }
-
-        // Display the total price in tfTotal
-        tfTotal.setText(String.format("%.2f", totalPrice));
-    }//GEN-LAST:event_btnAddActionPerformed
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
- // Check if at least one service is selected
+        // Check if at least one service is selected and get the total price
         DefaultTableModel model = (DefaultTableModel) tableService.getModel();
+        double totalPrice = 0.0;
         boolean serviceSelected = false;
 
         for (int i = 0; i < model.getRowCount(); i++) {
-            if ((Boolean) model.getValueAt(i, 0)) {
+            if ((Boolean) model.getValueAt(i, 0)) {  // Check if service is selected
                 serviceSelected = true;
-                break;
+                double price = (Double) model.getValueAt(i, 5);  // Get the price of the selected service
+                totalPrice += price;  // Add the price to totalPrice
             }
         }
 
@@ -218,30 +231,29 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
             return;
         }
 
-// Get inputs from the text fields
+        // Get inputs from the text fields
         String customerName = tfCustomerName.getText().trim();
         String cashInput = tfCash.getText().trim();
-        String totalInput = tfTotal.getText().trim();
+        String assignedEmployee = (String) cbPrefGender.getSelectedItem(); // Get selected assigned employee
 
-// Check if tfCustomerName or tfCash is empty
-        if (customerName.isEmpty() || cashInput.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Customer Name and Cash fields cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Check if tfCustomerName, tfCash, or assignedEmployee is empty/invalid
+        if (customerName.isEmpty() || cashInput.isEmpty() || assignedEmployee == null || assignedEmployee.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Customer Name, Cash, and Assigned Employee fields cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            // Parse cash and total as doubles
+            // Parse cash as double
             double cash = Double.parseDouble(cashInput);
-            double total = Double.parseDouble(totalInput);
 
             // Check if cash is sufficient
-            if (cash < total) {
+            if (cash < totalPrice) {
                 JOptionPane.showMessageDialog(this, "Insufficient cash. Please enter a sufficient amount.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             // Calculate change
-            double change = cash - total;
+            double change = cash - totalPrice;
 
             // Display change in tfChange
             tfChange.setText(String.format("%.2f", change));
@@ -250,33 +262,36 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
             String url = "jdbc:mysql://localhost:3306/spa_salon"; // Update with your database credentials
             String user = "root";
             String password = "";
-            String insertQuery = "INSERT INTO paymentsSpa (customerName, serviceName, totalPrice) VALUES (?, ?, ?)";
+            String insertQuery = "INSERT INTO paymentsSpa (customerName, serviceName, totalPrice, `Assigned Employee`) VALUES (?, ?, ?, ?)";
 
             try (Connection con = DriverManager.getConnection(url, user, password); PreparedStatement pst = con.prepareStatement(insertQuery)) {
 
+                // Loop through the selected services and add them to the batch
                 for (int i = 0; i < model.getRowCount(); i++) {
-                    if ((Boolean) model.getValueAt(i, 0)) {
-                        String serviceName = (String) model.getValueAt(i, 2);
-                        double servicePrice = (Double) model.getValueAt(i, 3);
+                    if ((Boolean) model.getValueAt(i, 0)) { // Check if service is selected
+                        String serviceName = (String) model.getValueAt(i, 2);  // Service name column
+                        double servicePrice = (Double) model.getValueAt(i, 5);  // Service price column
 
                         // Insert each selected service into the database
                         pst.setString(1, customerName);
                         pst.setString(2, serviceName);
                         pst.setDouble(3, servicePrice);
-                        pst.addBatch(); // Add to batch for batch execution
+                        pst.setString(4, assignedEmployee); // Add assigned employee to the database
+                        pst.addBatch();  // Add to batch for batch execution
                     }
                 }
-                pst.executeBatch(); // Execute the batch insert
+                pst.executeBatch();  // Execute the batch insert
             }
 
             // Display a success message
             JOptionPane.showMessageDialog(this,
-                    "Payment Successful!\n"
-                    + "Customer Name: " + customerName + "\n"
-                    + "Total: $" + String.format("%.2f", total) + "\n"
-                    + "Cash: $" + String.format("%.2f", cash) + "\n"
-                    + "Change: $" + String.format("%.2f", change),
-                    "Payment Complete", JOptionPane.INFORMATION_MESSAGE);
+                "Payment Successful!\n"
+                + "Customer Name: " + customerName + "\n"
+                + "Assigned Employee: " + assignedEmployee + "\n"
+                + "Total: $" + String.format("%.2f", totalPrice) + "\n"
+                + "Cash: $" + String.format("%.2f", cash) + "\n"
+                + "Change: $" + String.format("%.2f", change),
+                "Payment Complete", JOptionPane.INFORMATION_MESSAGE);
 
             // Reset all text fields and deselect services
             resetFields();
@@ -286,9 +301,6 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }//GEN-LAST:event_btnPayActionPerformed
 
     private void resetFields() {
@@ -297,6 +309,7 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
         tfCash.setText("");
         tfTotal.setText("0.00");
         tfChange.setText("");
+        cbPrefGender.setSelectedIndex(-1);
 
         // Deselect all services
         DefaultTableModel model = (DefaultTableModel) tableService.getModel();
@@ -311,18 +324,21 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
         String password = "";
 
         try {
+            // Establishing a connection to the database
             Connection con = DriverManager.getConnection(url, user, password);
 
+            // Query to select services from the database
             String query = "SELECT * FROM spa_services";
             PreparedStatement pst = con.prepareStatement(query);
             ResultSet rs = pst.executeQuery();
 
-            // Define the table model with an extra column for checkboxes
+            // Define the table model
             DefaultTableModel model = new DefaultTableModel(
-                    new Object[]{"Select", "ID", "Name", "Price"}, 0
+                    new Object[]{"Select", "ID", "Name", "Description", "Available", "Price"}, 0
             ) {
                 @Override
                 public Class<?> getColumnClass(int columnIndex) {
+                    // Make the first column (checkbox) as a boolean type
                     return (columnIndex == 0) ? Boolean.class : super.getColumnClass(columnIndex);
                 }
             };
@@ -331,13 +347,53 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
+                String description = rs.getString("description"); // Retrieve description
+                String available = rs.getString("available"); // Retrieve availability status (Yes/No)
                 double price = rs.getDouble("price");
 
-                model.addRow(new Object[]{false, id, name, price});
+                // Add data to the table
+                model.addRow(new Object[]{false, id, name, description, available, price}); // Initial checkbox state is false
             }
 
+            // Set the model to the table
             tableService.setModel(model);
+            autoResizeTableColumns(tableService);
 
+            // Adding action listener to handle checkbox selection/deselection
+            tableService.getModel().addTableModelListener(e -> {
+                int row = e.getFirstRow();
+                int col = e.getColumn();
+                if (col == 0) { // Checkbox column
+                    boolean isSelected = (Boolean) tableService.getValueAt(row, col);
+                    String availability = (String) tableService.getValueAt(row, 4); // "Available" column
+                    double price = (Double) tableService.getValueAt(row, 5); // "Price" column
+
+                    if ("No".equals(availability) && isSelected) {
+                        // If the service is not available and the checkbox is selected, unselect it and show error
+                        tableService.setValueAt(false, row, col); // Uncheck the box
+                        JOptionPane.showMessageDialog(null, "Service Not Available", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        // If a service is selected, deselect all other checkboxes
+                        if (isSelected) {
+                            // Deselect all other rows
+                            for (int i = 0; i < model.getRowCount(); i++) {
+                                if (i != row) {
+                                    tableService.setValueAt(false, i, 0); // Uncheck all other checkboxes
+                                }
+                            }
+                        }
+
+                        // Update tfTotal to show the price of the selected service
+                        if (isSelected) {
+                            tfTotal.setText(String.format("%.2f", price)); // Update tfTotal with the selected price
+                        } else {
+                            tfTotal.setText(""); // Clear tfTotal if unselected
+                        }
+                    }
+                }
+            });
+
+            // Close the resources
             rs.close();
             pst.close();
             con.close();
@@ -346,18 +402,16 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
         }
     }
 
-// Retrieve selected services
-    private void getSelectedServices() {
-        DefaultTableModel model = (DefaultTableModel) tableService.getModel();
-        for (int i = 0; i < model.getRowCount(); i++) {
-            boolean isSelected = (Boolean) model.getValueAt(i, 0);
-            if (isSelected) {
-                int id = (int) model.getValueAt(i, 1);
-                String name = (String) model.getValueAt(i, 2);
-                double price = (double) model.getValueAt(i, 3);
-
-                System.out.println("Selected Service: " + id + ", " + name + ", " + price);
+    private void autoResizeTableColumns(JTable tableService) {
+        TableColumnModel columnModel = tableService.getColumnModel();
+        for (int column = 0; column < tableService.getColumnCount(); column++) {
+            int width = 0;
+            for (int row = 0; row < tableService.getRowCount(); row++) {
+                TableCellRenderer cellRenderer = tableService.getCellRenderer(row, column);
+                Component c = tableService.prepareRenderer(cellRenderer, row, column);
+                width = Math.max(c.getPreferredSize().width + 1, width);
             }
+            columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
 
@@ -391,14 +445,16 @@ public class PaymentSpaFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnPay;
+    private javax.swing.JComboBox<String> cbPrefGender;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableService;
     private javax.swing.JTextField tfCash;

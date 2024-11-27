@@ -28,8 +28,6 @@ public class AboutUs extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -45,14 +43,6 @@ public class AboutUs extends javax.swing.JFrame {
         jLabel1.setText("About Luxe Luminaria Salon and Spa");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 20, 688, -1));
 
-        jLabel2.setFont(new java.awt.Font("Book Antiqua", 3, 36)); // NOI18N
-        jLabel2.setText("Mision");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 121, 136, -1));
-
-        jLabel3.setFont(new java.awt.Font("Book Antiqua", 3, 36)); // NOI18N
-        jLabel3.setText("Vision");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 335, 136, -1));
-
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Book Antiqua", 2, 14)); // NOI18N
         jTextArea1.setRows(5);
@@ -61,16 +51,17 @@ public class AboutUs extends javax.swing.JFrame {
         jTextArea1.setCaretColor(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(jTextArea1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 600, 130));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 600, 130));
 
         jTextArea2.setColumns(20);
+        jTextArea2.setFont(new java.awt.Font("Book Antiqua", 2, 14)); // NOI18N
         jTextArea2.setRows(5);
-        jTextArea2.setText("Our team of expert stylists and therapists uses only the finest products and techniques to ensure you experience true indulgence. \nWhether you’re here for a revitalizing spa treatment or a stunning makeover\nLuxe Luminaria promises sophistication, comfort, and unparalleled quality.\n\nStep into a world of luxury. Step into Luxe Luminaria.");
+        jTextArea2.setText("Our team of expert stylists and therapists uses only the finest products and techniques \nto ensure you experience true indulgence. \nWhether you’re here for a revitalizing spa treatment or a stunning makeover\nLuxe Luminaria promises sophistication, comfort, and unparalleled quality.\n\nStep into a world of luxury. Step into Luxe Luminaria.");
         jScrollPane2.setViewportView(jTextArea2);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 700, 120));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 600, 120));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, 746, 615));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 746, 615));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -112,8 +103,6 @@ public class AboutUs extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
